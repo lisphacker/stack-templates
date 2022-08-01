@@ -1,0 +1,271 @@
+{-# START_FILE package.yaml #-}
+name:                {{name}}
+version:             {{version}}{{^version}}0.1.0.0{{/version}}
+#synopsis:
+#description:
+homepage:            https://github.com/{{github-username}}{{^github-username}}githubuser{{/github-username}}/{{name}}#readme
+license:             BSD3
+author:              {{author-name}}{{^author-name}}Author name here{{/author-name}}
+maintainer:          {{author-email}}{{^author-email}}example@example.com{{/author-email}}
+copyright:           {{copyright}}{{^copyright}}{{year}}{{^year}}2019{{/year}} {{author-name}}{{^author-name}}Author name here{{/author-name}}{{/copyright}}
+category:            {{category}}{{^category}}Web{{/category}}
+extra-source-files:
+- README.md
+
+default-extensions:
+# - ApplicativeDo
+# - BangPatterns
+# - ConstraintKinds
+# - DataKinds
+# - DefaultSignatures
+# - DeriveAnyClass
+# - DeriveFoldable
+# - DeriveFunctor
+# - DeriveGeneric
+# - DeriveLift
+# - DeriveTraversable
+# - DerivingStrategies
+# - DuplicateRecordFields
+# - EmptyCase
+# - ExistentialQuantification
+- FlexibleContexts
+# - FlexibleInstances
+# - FunctionalDependencies
+- GADTs
+# - GeneralizedNewtypeDeriving
+# - InstanceSigs
+# - KindSignatures
+- LambdaCase
+# - MultiParamTypeClasses
+# - MultiWayIf
+# - NamedFieldPuns
+- OverloadedStrings
+# - PatternSynonyms
+# - RankNTypes
+# - RecordWildCards
+# - ScopedTypeVariables
+# - StandaloneDeriving
+# - TupleSections
+# - TypeApplications
+# - TypeFamilies
+# - TypeFamilyDependencies
+# - TypeOperators
+
+dependencies:
+- name: base
+  mixin:
+  - hiding (Prelude)
+- name: relude
+  mixin:
+  - (Relude as Prelude)
+- string-interpolate
+
+# The library contains all of our application code.
+# The executable defined below is just a thin wrapper.
+library:
+  source-dirs: src
+
+# Runnable executable for our application
+executables:
+  {{name}}:
+    source-dirs: app
+    main: Main.hs
+    dependencies:
+    - {{name}}
+    ghc-options:
+    - -rtsopts
+    - -threaded
+    - -with-rtsopts=-N
+
+# Test suite
+tests:
+  {{name}}-test:
+    source-dirs: test
+    main: Main.hs
+    dependencies:
+    - {{name}}
+    - tasty
+    - tasty-hspec
+    ghc-options:
+    - -rtsopts
+    - -threaded
+    - -with-rtsopts=-N
+
+{-# START_FILE Setup.hs #-}
+import Distribution.Simple
+main = defaultMain
+
+{-# START_FILE app/Main.hs #-}
+{-# LANGUAGE QuasiQuotes #-}
+module Main where
+
+import Lib
+import Data.String.Interpolate (i)
+
+main :: IO ()
+main = do
+  let a = 1
+  let b = 2
+  putStrLn [i| Sum of #{a} and #{b} is #{sum' a b}|]
+
+{-# START_FILE src/Lib.hs #-}
+module Lib where
+
+sum' :: Int -> Int -> Int
+sum' a b = a + b
+
+{-# START_FILE test/Main.hs #-}
+-- Tasty makes it easy to test your code. It is a test framework that can
+-- combine many different types of tests into one suite. See its website for
+-- help: <http://documentup.com/feuerbach/tasty>.
+import qualified Test.Tasty
+-- Hspec is one of the providers for Tasty. It provides a nice syntax for
+-- writing tests. Its website has more info: <https://hspec.github.io>.
+import Test.Tasty.Hspec
+import Lib
+
+main :: IO ()
+main = do
+    test <- testSpec "{{name}}" spec
+    Test.Tasty.defaultMain test
+
+spec :: Spec
+spec = parallel $ do
+    it "Sum of 1 and 1 is 2" $ do
+        sum' 1 1 `shouldBe` 2
+    it "safe operations (with relude)" $ do
+        let h :: Int
+            h = head $ one 0
+        h `shouldBe` 0
+        let t :: [Int]
+            t = tail (0 :| [1 .. 10])
+        take 2 t `shouldBe` [1,2]
+
+{-# START_FILE README.md #-}
+# Project: {{name}}
+
+## Notes:
+1. The generated project uses the custom prelude - `relude`.
+Because of this and the fact that `relude` and `base-noprelude` are not longer included in LTS-es newer than `lts-16.31`, then you have at least the following options:
+  - not to use at all a custom prelude,
+  - not to use stack, use instead cabal with something else (`hpack`)
+  - wait for the [issue](https://github.com/commercialhaskell/stack/issues/5077) to be fixed.
+
+{-# START_FILE .gitignore #-}
+dist*
+static/tmp/
+static/combined/
+config/client_session_key.aes
+*.hi
+*.o
+*.sqlite3
+*.sqlite3-shm
+*.sqlite3-wal
+.hsenv*
+cabal-dev/
+.stack-work/
+.stack-work-devel/
+yesod-devel/
+.cabal-sandbox
+cabal.sandbox.config
+.DS_Store
+*.swp
+*.keter
+*~
+\#*
+{{name}}.cabal
+# Vs code
+.history/
+
+{-# START_FILE CHANGELOG.md #-}
+# Change log
+
+{{name}} uses [Semantic Versioning][].
+The change log is available through the [releases on GitHub][].
+
+[Semantic Versioning]: http://semver.org/spec/v2.0.0.html
+[releases on GitHub]: https://github.com/{{github-username}}{{^github-username}}githubuser{{/github-username}}/{{name}}/releases
+
+{-# START_FILE .ghci #-}
+:set prompt "\ESC[95m\STXλ. \ESC[m\STX"
+:set prompt-cont "\ESC[1;32mλ| \ESC[m"
+
+-- ============================================
+-- warns and sanity checking
+-- ============================================
+-- :set -Wunrecognised-pragmas
+-- :set -Wall
+:set -XOverloadedStrings
+-- :set -XScopedTypeVariables
+-- :set -Wempty-enumerations
+-- :set -Wincomplete-patterns
+
+-- :set -v
+
+:set -XGADTs
+-- :set -XLambdaCase
+-- :set -XNegativeLiterals
+-- :set -XTypeOperators
+-- :set -XTupleSections
+:set -XFlexibleContexts
+-- :set -XTypeApplications
+
+-- :set -package QuickCheck
+
+-- Pretty printing of it
+-- :set -package ghci-pretty
+-- import IPPrint.Colored
+-- :set -interactive-print=IPPrint.Colored.cpprint
+
+-- ============================================
+-- MUST BE AT THE END: And unset some warns
+-- ============================================
+-- :set -Wno-missing-signatures
+-- :set -Wno-type-defaults
+
+{-# START_FILE stack.yaml #-}
+# GHC supported by VS code Haskell extension: https://github.com/haskell/vscode-haskell#supported-ghc-versions
+# LTS resolvers: https://www.stackage.org/
+# Warn: If you are going to use a higher stack LTS version then you need to replace relude
+#   (custom prelude) with something else or prelude itself (not recommended).
+#   This is because of the issue with stack not supporting cabal mixins
+# mixins:              base hiding (Prelude)
+#                      , relude (Relude as Prelude)
+# https://github.com/commercialhaskell/stack/issues/5077
+
+resolver: lts-19.17
+system-ghc: true
+packages:
+- .
+
+{-# START_FILE LICENSE #-}
+Copyright {{author-name}}{{^author-name}}Author name here{{/author-name}} (c) {{year}}{{^year}}2019{{/year}}
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+
+    * Redistributions in binary form must reproduce the above
+      copyright notice, this list of conditions and the following
+      disclaimer in the documentation and/or other materials provided
+      with the distribution.
+
+    * Neither the name of {{author-name}}{{^author-name}}Author name here{{/author-name}} nor the names of other
+      contributors may be used to endorse or promote products derived
+      from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
