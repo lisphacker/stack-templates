@@ -233,13 +233,13 @@ The change log is available through the [releases on GitHub][].
 #                      , relude (Relude as Prelude)
 # https://github.com/commercialhaskell/stack/issues/5077
 
-resolver: lts-19.17
-system-ghc: true
+resolver: lts-19.31
+system-ghc: false
 packages:
 - .
 
 {-# START_FILE LICENSE #-}
-Copyright {{author-name}}{{^author-name}}Author name here{{/author-name}} (c) {{year}}{{^year}}2019{{/year}}
+Copyright {{author-name}}{{^author-name}}Author name here{{/author-name}} (c) {{year}}{{^year}}2022{{/year}}
 
 All rights reserved.
 
