@@ -5,9 +5,9 @@ version:             {{version}}{{^version}}0.1.0.0{{/version}}
 #description:
 homepage:            https://github.com/{{github-username}}{{^github-username}}githubuser{{/github-username}}/{{name}}#readme
 license:             BSD3
-author:              {{author-name}}{{^author-name}}Author name here{{/author-name}}
-maintainer:          {{author-email}}{{^author-email}}example@example.com{{/author-email}}
-copyright:           {{copyright}}{{^copyright}}{{year}}{{^year}}2019{{/year}} {{author-name}}{{^author-name}}Author name here{{/author-name}}{{/copyright}}
+author:              {{author-name}}{{^author-name}}Gautham Ganapathy{{/author-name}}
+maintainer:          {{author-email}}{{^author-email}}gauthamg@gmail.com{{/author-email}}
+copyright:           {{copyright}}{{^copyright}}{{year}}{{^year}}2023{{/year}} {{author-name}}{{^author-name}}Gautham Ganapathy{{/author-name}}{{/copyright}}
 category:            {{category}}{{^category}}Web{{/category}}
 extra-source-files:
 - README.md
@@ -239,7 +239,7 @@ packages:
 - .
 
 {-# START_FILE LICENSE #-}
-Copyright {{author-name}}{{^author-name}}Author name here{{/author-name}} (c) {{year}}{{^year}}2022{{/year}}
+Copyright {{author-name}}{{^author-name}}Gautham Ganapathy{{/author-name}} (c) {{year}}{{^year}}2023{{/year}}
 
 All rights reserved.
 
