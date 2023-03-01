@@ -233,7 +233,7 @@ The change log is available through the [releases on GitHub][].
 #                      , relude (Relude as Prelude)
 # https://github.com/commercialhaskell/stack/issues/5077
 
-resolver: lts-20.7
+resolver: lts-20.11
 system-ghc: false
 packages:
 - .
