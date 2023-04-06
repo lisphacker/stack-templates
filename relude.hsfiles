@@ -144,12 +144,6 @@ spec = parallel $ do
 {-# START_FILE README.md #-}
 # Project: {{name}}
 
-## Notes:
-1. The generated project uses the custom prelude - `relude`.
-Because of this and the fact that `relude` and `base-noprelude` are not longer included in LTS-es newer than `lts-16.31`, then you have at least the following options:
-  - not to use at all a custom prelude,
-  - not to use stack, use instead cabal with something else (`hpack`)
-  - wait for the [issue](https://github.com/commercialhaskell/stack/issues/5077) to be fixed.
 
 {-# START_FILE .gitignore #-}
 dist*
@@ -233,7 +227,7 @@ The change log is available through the [releases on GitHub][].
 #                      , relude (Relude as Prelude)
 # https://github.com/commercialhaskell/stack/issues/5077
 
-resolver: lts-20.16
+resolver: lts-20.17
 system-ghc: false
 packages:
 - .
