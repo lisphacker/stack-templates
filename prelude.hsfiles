@@ -53,11 +53,6 @@ default-extensions:
 
 dependencies:
 - name: base
-  mixin:
-  - hiding (Prelude)
-- name: relude
-  mixin:
-  - (Relude as Prelude)
 - string-interpolate
 
 # The library contains all of our application code.
