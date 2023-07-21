@@ -79,6 +79,7 @@ tests:
     main: Main.hs
     dependencies:
     - {{name}}
+    - hspec
     - tasty
     - tasty-hspec
     ghc-options:
@@ -116,6 +117,7 @@ sum' a b = a + b
 import qualified Test.Tasty
 -- Hspec is one of the providers for Tasty. It provides a nice syntax for
 -- writing tests. Its website has more info: <https://hspec.github.io>.
+import Test.Hspec
 import Test.Tasty.Hspec
 import Lib
 
@@ -130,10 +132,10 @@ spec = parallel $ do
         sum' 1 1 `shouldBe` 2
     it "safe operations (with relude)" $ do
         let h :: Int
-            h = head $ one 0
+            h = head $ [0]
         h `shouldBe` 0
         let t :: [Int]
-            t = tail (0 :| [1 .. 10])
+            t = tail (0 : [1 .. 10])
         take 2 t `shouldBe` [1,2]
 
 {-# START_FILE README.md #-}
