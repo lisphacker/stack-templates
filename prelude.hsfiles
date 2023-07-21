@@ -215,12 +215,6 @@ The change log is available through the [releases on GitHub][].
 {-# START_FILE stack.yaml #-}
 # GHC supported by VS code Haskell extension: https://github.com/haskell/vscode-haskell#supported-ghc-versions
 # LTS resolvers: https://www.stackage.org/
-# Warn: If you are going to use a higher stack LTS version then you need to replace relude
-#   (custom prelude) with something else or prelude itself (not recommended).
-#   This is because of the issue with stack not supporting cabal mixins
-# mixins:              base hiding (Prelude)
-#                      , relude (Relude as Prelude)
-# https://github.com/commercialhaskell/stack/issues/5077
 
 resolver: lts-20.26
 system-ghc: false
