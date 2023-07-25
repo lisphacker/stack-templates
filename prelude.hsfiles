@@ -219,7 +219,6 @@ The change log is available through the [releases on GitHub][].
 # LTS resolvers: https://www.stackage.org/
 
 resolver: lts-20.26
-system-ghc: false
 packages:
 - .
 

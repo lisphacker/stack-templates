@@ -228,7 +228,6 @@ The change log is available through the [releases on GitHub][].
 # https://github.com/commercialhaskell/stack/issues/5077
 
 resolver: lts-20.26
-system-ghc: false
 packages:
 - .
 
